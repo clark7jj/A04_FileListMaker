@@ -106,4 +106,32 @@ public class ListMaker
         }
         return confirm;
     }
+    public static void loadListFile(Scanner pipe, ArrayList<String>list)
+    {
+        String fileName = SafeInput.getNonZeroLenString(pipe, "Enter the name of the file to load: ");
+        Path filePath = Path.of(fileName);
+        try {
+            ArrayList <String> fileContents = new ArrayList<>(Files.readAllLines(filePath));
+            list.clear();
+            list.addAll(fileContents);
+            System.out.println("File loaded successfully. ");
+        } catch (IOException e) {
+            System.out.println("Error loading file: " + e.getMessage());
+        }
+    }
+    public static void saveListFile(Scanner pipe, ArrayList<String>list)
+    {
+       String fileName = SafeInput.getNonZeroLenString(pipe, "Enter the name of the file to save: ");
+       if (!fileName.toLowerCase().endsWith(".txt"))
+       {
+         fileName = fileName + ".txt";
+       }
+       Path filePath = Path.of(fileName);
+       try {
+           Files.write(filePath, list);
+           System.out.println("File saved successfully.");
+       } catch (IOException e) {
+           System.out.println("Error saving file: " + e.getMessage());
+       }
+    }
 }
